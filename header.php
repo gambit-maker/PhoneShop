@@ -41,7 +41,7 @@
                 Praesent sit amet condimentum neque. Phasellus laoreet viverra odio, id tristique magna euismod vitae.
                 Pellentesque sed feugiat mauris</p>
             <div class="font-rale font-size-14">
-                <a href="#" class="px-3 border-right border-left text-dark">Login</a>
+                <a href="login.php" class="px-3 border-right border-left text-dark">Login</a>
                 <a href="#" class="px-3 border-right text-dark">WishList</a>
             </div>
         </div>
