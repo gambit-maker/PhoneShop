@@ -1,9 +1,26 @@
 <!-- product -->
+<?php 
+    $item_id = $_GET["MaDienThoai"];    
+    $theProduct ;
+    foreach ($product->getData() as $item) {
+        if ($item['MaDienThoai'] == $item_id) {
+            $theProduct = $item;
+        }
+    }
+
+    // get brand name in DB table hang
+    $theProductName;
+    foreach ($product->getData("hang") as $item) {
+        if ($item['MaHang'] == $theProduct['MaHang']) {
+            $theProductName = $item;
+        }
+    }
+?>
 <section id="product" class="py-3">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="./assets//products/1.png" alt="product" class="img-fluid">
+                        <img src="<?php echo $theProduct['img']; ?>" alt="product" class="img-fluid">
                         <div class="form-row pt-4 font-size-16 font-baloo">
                             <div class="col">
                                 <button type="submit" class="btn btn-danger form-control">Proceed Buy</button>
@@ -14,8 +31,8 @@
                         </div>
                     </div>
                     <div class="col-sm-6 py-5">
-                        <h5 class="font-baloo font-size-20">Samsung Galaxy 10</h5>
-                        <small>by Samsung</small>
+                    <h6><?php echo $theProduct['TenDienThoai'] ?? "Unknown"?></h6>
+                        <span>by <?php echo $theProductName['TenHang'] ?? "Brand"?></span>
                         <div class="d-flex">
                             <div class="rating text-warning font-size-12">
                                 <span><i class="fas fa-star"></i></span>
@@ -32,19 +49,19 @@
                         <table class="my-3">
                             <tr class="font-rale font-size-16">
                                 <td>M.R.P </td>
-                                <td><strike>$162.00</strike></td>
+                                <td><strike>1520000 VND</strike></td>
                             </tr>
                             <tr class="font-rale font-size-14">
                                 <td>Deal price</td>
                                 <td class="font-size-16 text-danger">
-                                    <span>$149.00</span>
+                                <span>by <?php echo $theProduct['GiaTien']." VND" ?? "Brand"?></span>
                                     <small class="text-dark font-size-12">&nbsp;&nbsp;include of all taxes</small>
                                 </td>
                             </tr>
                             <tr class="font-rale font-size-14">
                                 <td>You Save</td>
                                 <td>
-                                    <span class="font-size-16 text-danger">$10.00</span>                                    
+                                    <span class="font-size-16 text-danger">1000000 VND</span>                                    
                                 </td>
                             </tr>                            
                         </table>
@@ -141,9 +158,8 @@
                     </div>
                     <div class="col-12">
                         <h6 class="font-rubik">Product Description</h6>
-                        <hr>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic iusto reprehenderit exercitationem ipsam a! Iure a distinctio animi, laboriosam itaque, incidunt nisi voluptas eveniet, eaque quisquam quidem esse accusamus? Quibusdam consequuntur, maiores iste aut expedita vero in molestiae similique illum consequatur assumenda corporis! Ex a laboriosam temporibus suscipit, adipisci aliquam?</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit iusto ex, rem fugiat molestias omnis nulla aspernatur itaque numquam, architecto in iste aut sint dolorem eligendi soluta inventore deserunt esse!</p>
+                        <hr>                        
+                        <p><?php echo $theProduct['MoTa'];?></p>                        
                     </div>
                 </div>
             </div>
