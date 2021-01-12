@@ -26,6 +26,11 @@
 
     <!-- Custom CSS file -->
     <link rel="stylesheet" href="style.css">
+
+    <?php 
+        // Require MySQlL Connection in functions.php
+        require('functions.php');
+    ?>
 </head>
 
 <body>
