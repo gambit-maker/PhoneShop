@@ -24,15 +24,15 @@ button, button:focus {
 }
 
 .font-size-14 {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .font-size-16 {
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .font-size-20 {
-  font-size: 12px;
+  font-size: 20px;
 }
 
 /* Color Template */
@@ -92,6 +92,12 @@ button, button:focus {
 }
 #top-sale .owl-carousel .owl-nav button.owl-next span {
   margin-right: -4rem;
+}
+
+/* Special-price section template*/
+#special-price .grid .grid-item {
+  margin-right: 1.2rem;
+  margin-top: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */
