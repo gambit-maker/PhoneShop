@@ -8,42 +8,62 @@
     <link rel="stylesheet" href="styleLogin.css">
     <?php
     // Require MySQlL Connection in functions.php
+    
     require('functions.php');
     ?>
+
+    
 </head>
+
 <?php
+
+
+
+$maTaiKhoan = "";
+$checkLogin = false;
+$role = "";
 if (isset($_POST["signIn"])) {
     $taiKhoan = $_POST["taiKhoan"];
     $matKhau = $_POST["matKhau"];
 
-    $foundAccount = false;
-    $checkPassword = false;
+    
 
     $thongTinTaiKhoan = $product->getData("taikhoan");
+        
+
     foreach ($thongTinTaiKhoan as $item) {
         if ($taiKhoan == $item['TenDangNhap']) {
-            $foundAccount = true;
             if ($matKhau == $item['MatKhau']) {
-                $checkPassword = true;
-                echo "Great ";                
+                $checkLogin = true;
+                $maTaiKhoan = $item['MaTaiKhoan'];
+
+                echo "Great ";
                 if ($item['Admin'] == 1) {
                     echo "Admin";
+                    $role = "admin";
+                    header("location: admin.php ");
                 } else {
                     echo "guest";
+                    header("location: index.php?accountID=".$maTaiKhoan);
+                    $role = "guest";
                 }
             }
         }
-    }
+    }    
+    
+    echo $maTaiKhoan;    
 }
 ?>
 
 <body>
-    <form action="" method="post">
-        <div class="login-wrap">
-            <div class="login-html">
-                <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
-                <div class="login-form">
+
+    <div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+
+            <div class="login-form">
+                <form action="" method="POST">
                     <div class="sign-in-htm">
                         <div class="group">
                             <label for="user" class="label">Username</label>
@@ -62,10 +82,10 @@ if (isset($_POST["signIn"])) {
                         </div>
                         <?php
                         if (isset($_POST["signIn"])) :
-                            if (!$foundAccount) :
+                            if (!$checkLogin) :
                         ?>
                                 <div class="group">
-                                    <h4 style="text-align: center; color: #df4759;">Account Not Found</h4>
+                                    <h4 style="text-align: center; color: #df4759;">UserName or Password is Wrong</h4>
                                 </div>
                         <?php
                             endif;
@@ -76,6 +96,9 @@ if (isset($_POST["signIn"])) {
                             <a href="#forgot">Forgot Password?</a>
                         </div>
                     </div>
+                </form>
+
+                <form action="" method="POST">
                     <div class="sign-up-htm">
                         <div class="group">
                             <label for="user" class="label">Username</label>
@@ -101,10 +124,13 @@ if (isset($_POST["signIn"])) {
                             <label for="tab-1">Already Member?</a>
                         </div>
                     </div>
-                </div>
+                </form>
+
+
             </div>
         </div>
-    </form>
+    </div>
+
 </body>
 
 </html>

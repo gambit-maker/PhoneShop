@@ -14,6 +14,7 @@
 
     // Product Object
     $product = new Product($db);
+    $product_data = $product->getData();
 
 
     $cart = new Cart($db);
