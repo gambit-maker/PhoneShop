@@ -5,6 +5,9 @@ include('header.php');
 
     <?php
 
+
+
+
     /* include cart area */
     include('Template/_cart.php');
     /* !include cart area */
@@ -12,6 +15,8 @@ include('header.php');
     /* include new phone area */
     include('Template/_new-phone.php');
     /* !include new phone area */
+
+
     ?>
 
 <?php

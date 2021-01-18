@@ -1,27 +1,32 @@
-<?php 
-    $accountID = $_GET["accountID"];
+<?php
+
+$accountID = $_GET["accountID"];
+if (isset($_POST["deleteItem"])) {
+    $maDienThoai = $_POST["maDienThoai"];
+    $cart->deleteItemInCart($maDienThoai);
+}
 ?>
 
 <!-- Shopping cart section -->
 <section id="cart" class="py-3 mb-5">
-            <div class="container-fluid w-75">
-                <h5 class="font-baloo font-size-20">Shopping cart</h5>
+    <div class="container-fluid w-75">
+        <h5 class="font-baloo font-size-20">Shopping cart</h5>
 
-                <!-- Shopping cart item -->
-                <div class="row">
-                    <!-- Cart item -->
-                    <div class="col-sm-9">
+        <!-- Shopping cart item -->
+        <div class="row">
+            <!-- Cart item -->
+            <div class="col-sm-9">
 
-                        <?php 
+                <?php
+                $tongTien = array();
+                // $result = $product ->getProduct(2);
+                // print_r($result);
+                foreach ($cart->getDataFromAccountId($accountID) as $item) :
+                    $cart1 = $product->getProduct($item['MaSanPham']);
+                    $tongTien[] = array_map(function ($item) {
 
-                            // $result = $product ->getProduct(2);
-                            // print_r($result);
-                            foreach ($cart->getDataFromAccountId($accountID) as $item) :                                
-                                $cart = $product->getProduct($item['MaSanPham']);
-                                array_map(function($item){
 
-                                
-                        ?>
+                ?>
 
                         <div class="row border-top py-3 mt-3">
                             <div class="col-sm-2">
@@ -50,15 +55,18 @@
                                         <button class="qty-up border bg-light" data-id="pro1">
                                             <i class="fas fa-angle-up"></i>
                                         </button>
-                                        <input type="text" data-id="pro1" class="qty_input border px-2 w-100 bg-light" disabled
-                                            value="1" placeholder="1">
+                                        <input type="text" data-id="pro1" class="qty_input border px-2 w-100 bg-light" disabled value="1" placeholder="1">
                                         <button class="qty-down border bg-light" data-id="pro1">
                                             <i class="fas fa-angle-down"></i>
                                         </button>
                                     </div>
-                                    <button type="submit"
-                                        class="btn font-baloo text-danger px-3 border-right">Delete</button>
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="maDienThoai" value="<?php echo $item['MaDienThoai']; ?>">
+                                        <button type="submit" name="deleteItem" class="btn font-baloo text-danger px-3 border-right">Delete</button>
+                                    </form>
+
                                     <button type="submit" class="btn font-baloo text-danger px-3 border-right">Save for
+
                                         later</button>
                                 </div>
                                 <!-- !Product Qty -->
@@ -66,38 +74,42 @@
 
                             <div class="col-sm-2 text-right">
                                 <div class="font-size-20  text-danger font-baloo">
-                                    $<span class="product_pirce"><?php echo $item['GiaTien'] ?></span>
+                                    <span class="product_pirce"><?php echo $item['GiaTien'] ?></span>VND
                                 </div>
 
                             </div>
                         </div>
 
-                        <?php 
-                        },$cart); // closing maparry
-                            endforeach;
-                        ?>
+                <?php
+                
+                return $item['GiaTien'];
+                    }, $cart1); // closing maparry
+                endforeach;
+                
+                
+                ?>
 
-                      
-                    </div>
-                    <!-- !Cart item -->
 
-                    <!-- Subtotal section -->
-                    <div class="col-sm-3">
-                        <div class="sub-total text-center mt-2 border">
-                            <h6 class="font-rale font-size-12 text-success py-3"><i class="fas fa-check"></i>Your order
-                                is ready to procced</h6>
-                            <div class="border-top py-4">
-                                <h5 class="font-baloo font-size-20">Subtotal(2 items):&nbsp; 
-                                    <span class="text-danger" id="deal-price">$152.00</span>
-                                </h5>
-                                <button type="submit" class="btn btn-warning mt-3">Procced to buy</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- !Subtotal section -->
-                </div>
-                <!-- !Shopping cart item -->
             </div>
-        </section>
+            <!-- !Cart item -->
 
-        <!-- !Shopping cart section -->
+            <!-- Subtotal section -->
+            <div class="col-sm-3">
+                <div class="sub-total text-center mt-2 border">
+                    <h6 class="font-rale font-size-12 text-success py-3"><i class="fas fa-check"></i>Your order
+                        is ready to procced</h6>
+                    <div class="border-top py-4">
+                        <h5 class="font-baloo font-size-20">Subtotal(<?php echo count($tongTien); ?> items):&nbsp;
+                            <span class="text-danger" id="deal-price"><?php echo isset($tongTien) ? $cart->sumItemInCart($tongTien) : 0; ?></span>
+                        </h5>
+                        <button type="submit" class="btn btn-warning mt-3">Procced to buy</button>
+                    </div>
+                </div>
+            </div>
+            <!-- !Subtotal section -->
+        </div>
+        <!-- !Shopping cart item -->
+    </div>
+</section>
+
+<!-- !Shopping cart section -->

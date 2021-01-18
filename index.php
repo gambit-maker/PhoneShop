@@ -37,8 +37,11 @@ include('header.php');
         /* include blogs area */
         include('Template/_blog.php');
         /* !include blogs area */
+        
         ?>
 
+
+        
         
 
        

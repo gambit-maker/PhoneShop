@@ -8,8 +8,8 @@ if (isset($_POST["top_sale_submit"])) {
 
     if (isset($_GET["accountID"])) {
         $cart->addToCart($_POST['account_id'], $_POST['item_id']);
-        echo '<script type="text/javascript">swal("product insert to cart.", " ", "success");</script>';
-        // echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
+        // echo '<script type="text/javascript">swal("product insert to cart.", " ", "success");</script>';
+        echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
     } else {
         echo '<script type="text/javascript">swal("You must login to use this feature !", " ", "error");</script>';
     }

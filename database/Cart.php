@@ -65,16 +65,34 @@ class Cart
     }
 
     // fetch Data in Product using getData Method
-    public function getDataFromAccountId($accountID = null,$table = "giohang")
+    public function getDataFromAccountId($accountID = null, $table = "giohang")
     {
         $resultArray = array();
         if ($accountID != null) {
-            $result = $this->db->con->query("SELECT * FROM {$table} WHERE MaTaiKhoan = {$accountID}");            
+            $result = $this->db->con->query("SELECT * FROM {$table} WHERE MaTaiKhoan = {$accountID}");
             while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $resultArray[] = $item;
             }
         }
 
         return $resultArray;
+    }
+
+    // delete cart
+    public function deleteItemInCart($itemId = null)
+    {
+        if ($itemId != null) {
+            $this->db->con->query("DELETE FROM giohang WHERE MaSanPham = {$itemId}");
+        }
+    }
+
+    public function sumItemInCart($arr){
+        if (isset($arr)) {
+            $sum = 0;
+            foreach ($arr as $item) {
+                $sum += $item[0];
+            }
+            return sprintf($sum);
+        }
     }
 }

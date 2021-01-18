@@ -8,8 +8,8 @@
 
         if ($accountID != null) {
             $cart->addToCart($_POST['account_id'], $_POST['item_id']);
-            echo '<script type="text/javascript">swal("product insert to cart.", " ", "success");</script>';
-            // echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
+            // echo '<script type="text/javascript">swal("product insert to cart.", " ", "success")? "":location.reload();</script>';
+            echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
         } else {
             echo '<script type="text/javascript">swal("You must login to use this feature !", " ", "error");</script>';
         }
@@ -48,7 +48,7 @@
                              <div class="price py-2">
                                  <span><?php echo $item["GiaTien"] . " VND" ?? "0" ?></span>
                              </div>
-                             <form action="" method="POST">
+                             <form method="POST">
                                  <input type="hidden" name="item_id" value="<?php echo $item['MaDienThoai'] ?>">
                                  <input type="hidden" name="account_id" value="<?php echo $accountID; ?>">
                                  <button type="submit" name="new_phone_submit" class="btn btn-warning font-size-12">Add To Cart</button>
