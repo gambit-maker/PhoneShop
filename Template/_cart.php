@@ -17,6 +17,34 @@ if (isset($_POST["giam1"])) {
     echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
 }
 
+if (isset($_POST["proccedBuy"])) {
+    $tongTien = $cart->getTongTienTrongGio($accountID);
+    
+    if ($cart->getDataFromAccountId($accountID) != null) {
+        $bill->themDonHang($accountID,$tongTien);    
+        echo '<script>
+            swal({
+                title: "Cảm ơn bạn đã mua hàng.",
+                text: "Đơn hàng đang được cập nhập và phê duyệt.",
+                icon: "success"
+            }).then(function() {
+                window.location = "";
+            });
+            </script>';
+            $bill->xoaGioHangKhiThemVaoDon($accountID);
+    }
+    else{
+        echo '<script>
+            swal({
+                title: "Không có sản phẩm nào trong giỏ hàng.",
+                text: " ",
+                icon: "error"
+            }).then(function() {
+                window.location = "";
+            });
+            </script>';
+    }
+}
 
 ?>
 
@@ -53,8 +81,9 @@ if (isset($_POST["giam1"])) {
                     $tongTien[] = array_map(function ($item) {
                         $db = new DBController();
                         $cart = new Cart($db);
+                        // print_r($cart->getCartId($cart->getDataFromAccountId($_GET["accountID"])));
                         $count = array_count_values($cart->getCartId($cart->getDataFromAccountId($_GET["accountID"])));
-
+                        // print_r($count);
 
                 ?>
 

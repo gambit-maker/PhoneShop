@@ -41,20 +41,20 @@
             <p class="font-rale font-size-12 text-black-50 m-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Praesent sit amet condimentum neque. Phasellus laoreet viverra odio, id tristique magna euismod vitae.
                 Pellentesque sed feugiat mauris</p>
-            <div class="font-rale font-size-14">                
-                <?php 
-                $accountID="" ;
-                if (isset($_GET["accountID"])) {                    
-                    $accountID = $_GET["accountID"];                    
+            <div class="font-rale font-size-14">
+                <?php
+                $accountID = "";
+                if (isset($_GET["accountID"])) {
+                    $accountID = $_GET["accountID"];
                     $account = $product->getData("TaiKhoan");
 
                     foreach ($account as $item) {
                         if ($accountID == $item['MaTaiKhoan']) {
-                            echo "<a class='px-3 border-right border-left text-dark'>Account: ".$item['TenDangNhap']."</a>";
+                            echo "<a class='px-3 border-right border-left text-dark'>Account: " . $item['TenDangNhap'] . "</a>";
                             echo "<a href='index.php' class='px-3 border-right border-left text-dark'>LogOut</a>";
                         }
                     }
-                }else{
+                } else {
                     echo "<a href='login.php' class='px-3 border-right border-left text-dark'>Login</a>";
                 }            ?>
                 <a href="#" class="px-3 border-right text-dark">WishList</a>
@@ -63,12 +63,12 @@
 
         <!-- Primary Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark color-second-bg">
-            <?php 
-                if ($accountID == null) {
-                    echo '<a class="navbar-brand" href="index.php">Moblie Shop</a>';
-                }else{
-                    echo '<a class="navbar-brand" href="index.php?accountID='.$accountID.'">Moblie Shop</a>';
-                }
+            <?php
+            if ($accountID == null) {
+                echo '<a class="navbar-brand" href="index.php">Moblie Shop</a>';
+            } else {
+                echo '<a class="navbar-brand" href="index.php?accountID=' . $accountID . '">Moblie Shop</a>';
+            }
             ?>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -85,41 +85,52 @@
                         <a class="nav-link" href="#">Products<i class="fas fa-chevron-down"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Comming Soon</a>
+
+                        <?php
+                        if ($accountID != null) {
+                            echo '<a class="nav-link" href="trackingOrder.php?accountID=' . $accountID . '">Tracking Order</a>';
+                        }
+                        ?>
+                        <?php
+                        if ($accountID == null) :
+                        ?>
+                            <a onclick="swal('You must login to use this feature !', ' ', 'error')" class="nav-link">Tracking Order</a>
+                            <?php
+                        endif;
+                            ?>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Blog</a>
                     </li>
                 </ul>
-                
-                <form class="font-size-14 font-rale" >
-                    <?php 
-                        if ($accountID != null) {
-                            echo '<a href = "cart.php?accountID='.$accountID.'" class="py-2 rounded-pill color-primary-bg">';
-                        }
+
+                <form class="font-size-14 font-rale">
+                    <?php
+                    if ($accountID != null) {
+                        echo '<a href = "cart.php?accountID=' . $accountID . '" class="py-2 rounded-pill color-primary-bg">';
+                    }
                     ?>
-                    <?php 
-                        if ($accountID == null) :
+                    <?php
+                    if ($accountID == null) :
                     ?>
                         <a onclick="swal('You must login to use this feature !', ' ', 'error')" class="py-2 rounded-pill color-primary-bg">
-                    <?php 
-                        endif;
-                    ?>
-                    
+                        <?php
+                    endif;
+                        ?>
+
                         <span class="font-size-16 px-2 text-white">
                             <i class="fas fa-shopping-cart"></i>
                         </span>
                         <span class="px-3 py-2 rounded-pill text-dark bg-light">
-                            <?php 
-                                if ($accountID != null) {
-                                    echo $cart->sumOfProduct($accountID);
-                                }
-                                else{
-                                    echo 0;
-                                }
+                            <?php
+                            if ($accountID != null) {
+                                echo $cart->sumOfProduct($accountID);
+                            } else {
+                                echo 0;
+                            }
                             ?>
                         </span>
-                    </a>
+                        </a>
                 </form>
             </div>
         </nav>

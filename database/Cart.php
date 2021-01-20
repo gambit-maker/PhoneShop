@@ -75,7 +75,7 @@ class Cart
     }
 
     // fetch Data in Product using getData Method
-    // lấy thông tin giỏ hàng của từng user
+    // lấy thông tin giỏ hàng của user với id
     public function getDataFromAccountId($accountID = null, $table = "giohang")
     {
         $resultArray = array();
@@ -145,13 +145,15 @@ class Cart
     }
 
     // get item_id of shopping cart
+    // lay ma san pham
     public function getCartId($cartArr = null,$key = "MaSanPham")
     {
         if ($cartArr != null) {
             $cart_id = array_map(function($value) use ($key){
                 return $value[$key];
             },$cartArr);
-        }
-        return $cart_id;
+            return $cart_id;
+        }        
+        
     }
 }

@@ -12,6 +12,9 @@
     // Require Account Class
     require('database/Account.php');
 
+    //require Bill Class
+    require('database/Bill.php');
+
     // DBController object
     $db = new DBController();
 
@@ -23,6 +26,8 @@
     $cart = new Cart($db);
     
     $account = new Account($db);
+
+    $bill = new Bill($db);
     
     // print_r($cart->getCartId($cart->getDataFromAccountId("2")));
 ?>
