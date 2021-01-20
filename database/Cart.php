@@ -52,6 +52,16 @@ class Cart
         }
     }
 
+    public function giamMotSanPham($userID, $itemID)
+    {
+        if ($this->db->con != null) {
+            $query_string = "DELETE FROM giohang 
+                                    WHERE MaTaiKhoan = {$userID} AND MaSanPham = {$itemID}
+                                    ORDER BY MaGioHang DESC limit 1";
+        }
+        $this->db->con->query($query_string);
+    }
+
     public function sumOfProduct($accountID, $table = "giohang")
     {
         $sum = 0;
@@ -65,11 +75,26 @@ class Cart
     }
 
     // fetch Data in Product using getData Method
+    // lấy thông tin giỏ hàng của từng user
     public function getDataFromAccountId($accountID = null, $table = "giohang")
     {
         $resultArray = array();
         if ($accountID != null) {
             $result = $this->db->con->query("SELECT * FROM {$table} WHERE MaTaiKhoan = {$accountID}");
+            while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $resultArray[] = $item;
+            }
+        }
+
+        return $resultArray;
+    }
+
+
+    public function getDataFromAccountIdDistinct($accountID = null, $table = "giohang")
+    {
+        $resultArray = array();
+        if ($accountID != null) {
+            $result = $this->db->con->query("SELECT DISTINCT MaTaiKhoan,MaSanPham FROM {$table} WHERE MaTaiKhoan = {$accountID}");
             while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $resultArray[] = $item;
             }
@@ -94,5 +119,39 @@ class Cart
             }
             return sprintf($sum);
         }
+    }             
+
+    public function getData($table = "dienthoai"){
+        $result = $this->db->con->query("SELECT * FROM {$table}");
+
+        $resultArray = array();
+        while($item = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }         
+
+    public function getTongTienTrongGio($accountID)
+    {        
+        $sum = 0;
+        foreach ($this->getDataFromAccountId($accountID) as $item) {
+            foreach ($this->getData() as $item2) {
+                if ($item['MaSanPham'] == $item2['MaDienThoai']) {
+                    $sum += $item2['GiaTien'];
+                }
+            }        
+        }
+        return $sum;
+    }
+
+    // get item_id of shopping cart
+    public function getCartId($cartArr = null,$key = "MaSanPham")
+    {
+        if ($cartArr != null) {
+            $cart_id = array_map(function($value) use ($key){
+                return $value[$key];
+            },$cartArr);
+        }
+        return $cart_id;
     }
 }

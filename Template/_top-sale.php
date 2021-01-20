@@ -10,6 +10,13 @@ if (isset($_POST["top_sale_submit"])) {
         $cart->addToCart($_POST['account_id'], $_POST['item_id']);
         // echo '<script type="text/javascript">swal("product insert to cart.", " ", "success");</script>';
         echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
+//         echo '<script>
+//             swal({
+//                 title: "Product has been inserted.",
+//                 text: " ",
+//                 icon: "success"
+//             });
+// </script>';
     } else {
         echo '<script type="text/javascript">swal("You must login to use this feature !", " ", "error");</script>';
     }

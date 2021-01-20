@@ -6,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styleLogin.css">
+    <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <?php
     // Require MySQlL Connection in functions.php
-    
+
+
+
     require('functions.php');
     ?>
 
-    
+
 </head>
 
 <?php
@@ -26,10 +31,10 @@ if (isset($_POST["signIn"])) {
     $taiKhoan = $_POST["taiKhoan"];
     $matKhau = $_POST["matKhau"];
 
-    
+
 
     $thongTinTaiKhoan = $product->getData("taikhoan");
-        
+
 
     foreach ($thongTinTaiKhoan as $item) {
         if ($taiKhoan == $item['TenDangNhap']) {
@@ -44,18 +49,54 @@ if (isset($_POST["signIn"])) {
                     header("location: admin.php ");
                 } else {
                     echo "guest";
-                    header("location: index.php?accountID=".$maTaiKhoan);
+                    header("location: index.php?accountID=" . $maTaiKhoan);
                     $role = "guest";
                 }
             }
         }
-    }    
-    
-    echo $maTaiKhoan;    
+    }
+
+    echo $maTaiKhoan;
+} else if (isset($_POST["signUp"])) {
+    $taiKhoan = $_POST["taiKhoan"];
+    $matKhau = $_POST["matKhau"];
+    $dienThoai = $_POST["dienThoai"];
+    $diaChi = $_POST["diaChi"];
+
+    $checkTen = true;
+    foreach ($product->getData('taikhoan') as $item) {
+        if ($taiKhoan == $item['TenDangNhap']) {
+            $checkTen = false;
+        }
+    }
+    if ($checkTen) {
+        $account->insertAccount($taiKhoan, $matKhau, $dienThoai, $diaChi);
+    }
 }
+
 ?>
 
+
 <body>
+    <?php
+    if (isset($_POST["signUp"])) {
+        if ($checkTen == false) {
+            echo '<script type="text/javascript">swal("User name has been used", " ", "error");</script>';
+        } else {
+            echo '<script>
+            swal({
+                title: "Account Created.",
+                text: " ",
+                icon: "success"
+            }).then(function() {
+                window.location = "login.php";
+            });
+</script>';
+        }
+    }
+    ?>
+
+
 
     <div class="login-wrap">
         <div class="login-html">
@@ -67,11 +108,11 @@ if (isset($_POST["signIn"])) {
                     <div class="sign-in-htm">
                         <div class="group">
                             <label for="user" class="label">Username</label>
-                            <input id="user" name="taiKhoan" type="text" class="input">
+                            <input id="user" name="taiKhoan" required type="text" class="input">
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Password</label>
-                            <input id="pass" name="matKhau" type="password" class="input" data-type="password">
+                            <input id="pass" name="matKhau" required type="password" class="input" data-type="password">
                         </div>
                         <div class="group">
                             <input id="check" type="checkbox" class="check">
@@ -85,7 +126,15 @@ if (isset($_POST["signIn"])) {
                             if (!$checkLogin) :
                         ?>
                                 <div class="group">
-                                    <h4 style="text-align: center; color: #df4759;">UserName or Password is Wrong</h4>
+                                    <!-- <h4 style="text-align: center; color: #df4759;">UserName or Password is Wrong</h4> -->
+                                    <?php 
+                                    echo '<script>
+                                    swal({
+                                        title: "Account not Valid.",
+                                        text: " ",
+                                        icon: "error"
+                                    });
+                        </script>';?>
                                 </div>
                         <?php
                             endif;
@@ -102,23 +151,26 @@ if (isset($_POST["signIn"])) {
                     <div class="sign-up-htm">
                         <div class="group">
                             <label for="user" class="label">Username</label>
-                            <input id="user" type="text" class="input">
+                            <input id="user" name="taiKhoan" type="text" required class="input">
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Password</label>
-                            <input id="pass" type="password" class="input" data-type="password">
+                            <input id="pass" name="matKhau" type="password" required class="input">
                         </div>
                         <div class="group">
-                            <label for="pass" class="label">Repeat Password</label>
-                            <input id="pass" type="password" class="input" data-type="password">
+                            <label for="pass" class="label">Phone Number</label>
+                            <input id="pass" name="dienThoai" type="text" required class="input">
                         </div>
                         <div class="group">
-                            <label for="pass" class="label">Email Address</label>
-                            <input id="pass" type="text" class="input">
+                            <label for="pass" class="label">Address</label>
+                            <input id="pass" name="diaChi" type="text" required class="input">
                         </div>
                         <div class="group">
                             <input type="submit" name="signUp" class="button" value="Sign Up">
                         </div>
+
+
+
                         <div class="hr"></div>
                         <div class="foot-lnk">
                             <label for="tab-1">Already Member?</a>

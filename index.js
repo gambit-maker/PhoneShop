@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     //banner caroulse
     $("#banner-area .owl-carousel").owlCarousel({
@@ -72,25 +73,72 @@ $(document).ready(function () {
     //Product qty section
     let $qty_up = $(".qty .qty-up");
     let $qty_down = $(".qty .qty-down");
+    let $deal_price = $("#deal-price");
     // let $input = $(".qty .qty_input")
     //Click on qty button
-    $qty_up.click(function(e){        
-        let $input = $(`.qty_input[data-id='${$(this).data("id")}']`);        
-        if ($input.val() >= 1 && $input.val() < 10) {
-            $input.val(function(i,oldval){
-                return ++oldval;
-            })            
-        }
-    });
-    $qty_down.click(function(e){
+    $qty_up.click(function (e) {
+
         let $input = $(`.qty_input[data-id='${$(this).data("id")}']`);
-        if ($input.val() > 1 && $input.val() <= 10) {
-            $input.val(function(i,oldval){
-                return --oldval;
-            })            
-        }
+        let $price = $(`.product_price[data-id='${$(this).data("id")}']`);
+
+        // change product price using ajax
+        $.ajax({
+            url: "template/ajax.php",
+            type: 'post',
+            data: { itemid: $(this).data("id") },
+            success: function (result) {
+                let obj = JSON.parse(result);
+                let item_price = obj[0]['GiaTien']
+
+                if ($input.val() >= 1 && $input.val() < 10) {
+                    $input.val(function (i, oldval) {
+
+                        return ++oldval;
+                    })
+
+
+                    // incresing price of product
+                    $price.text(parseInt(item_price * $input.val()));
+
+                    //set subtotal price
+                    let subtotal = parseInt($deal_price.text()) + parseInt(item_price);
+                    $deal_price.text(subtotal);
+                }
+
+            }
+        }); // closing ajax func
+
+    });
+    $qty_down.click(function (e) {
+        let $input = $(`.qty_input[data-id='${$(this).data("id")}']`);
+        let $price = $(`.product_price[data-id='${$(this).data("id")}']`);
+
+        $.ajax({
+            url: "template/ajax.php",
+            type: 'post',
+            data: { itemid: $(this).data("id") },
+            success: function (result) {
+                let obj = JSON.parse(result);
+                let item_price = obj[0]['GiaTien']
+
+                if ($input.val() > 1 && $input.val() <= 10) {
+                    $input.val(function (i, oldval) {
+                        return --oldval;
+                    })
+                    // incresing price of product
+                    $price.text(parseInt(item_price * $input.val()));
+
+                    //set subtotal price
+                    let subtotal = parseInt($deal_price.text()) - parseInt(item_price);
+                    $deal_price.text(subtotal);
+                }
+
+
+            }
+        }); // closing ajax func
+
     });
 
-    
+
 });
 
