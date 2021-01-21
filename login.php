@@ -46,7 +46,7 @@ if (isset($_POST["signIn"])) {
                 if ($item['Admin'] == 1) {
                     echo "Admin";
                     $role = "admin";
-                    header("location: admin.php ");
+                    header("location: admin/index.php ");
                 } else {
                     echo "guest";
                     header("location: index.php?accountID=" . $maTaiKhoan);

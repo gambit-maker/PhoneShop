@@ -32,13 +32,14 @@
             return $resultArray;
         }
 
-        public function getBrandNameV2($maDienThoai)
+        public function getBrandNameV2($maHang)
         {
             $result = $this->db->con->query("SELECT DISTINCT * FROM hang JOIN dienthoai 
             ON hang.MaHang = dienthoai.MaHang 
-            WHERE hang.MaHang = $maDienThoai");
+            WHERE hang.MaHang = $maHang");
             
             $item = mysqli_fetch_array($result,MYSQLI_ASSOC);
+            
             return $item['TenHang'];
         }
 
@@ -81,5 +82,40 @@
             return $item[$noiDung];
         }
 
+        // tim kiem san pham
+        public function timKiem($chuoi)
+        {
+            if ($this->db->con != null) {            
+                $query_string = "SELECT * FROM dienthoai JOIN hang 
+                ON dienthoai.MaHang = hang.MaHang
+                WHERE dienthoai.TenDienThoai LIKE '%$chuoi%' OR hang.MaHang LIKE '%$chuoi%'";
+            }
+            $result = $this->db->con->query($query_string);            
+            $resultArray = array();
+            while ($item = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                $resultArray[] = $item;
+            }
+            return $resultArray;            
+        }
+
+
+        // thêm sản phẩm 
+        public function themDienThoai($tenDienThoai,$maHang,$img,$giaTien,$moTa,$soLuong)
+        {
+            if ($this->db->con != null) {            
+                $query_string = "INSERT INTO `dienthoai`(`TenDienThoai`, `MaHang`, `img`, `GiaTien`, `MoTa`, `SoLuong`)
+                 VALUES ('$tenDienThoai','$maHang','$img','$giaTien','$moTa','$soLuong')";
+            }
+            $this->db->con->query($query_string);                        
+        }
+
+        //xoa san pham
+        public function xoaSanPham($maSanPham)
+        {
+            if ($this->db->con != null) {            
+                $query_string = "DELETE FROM dienthoai WHERE MaDienThoai = $maSanPham";
+            }
+            $this->db->con->query($query_string);                        
+        }
     }
 ?>

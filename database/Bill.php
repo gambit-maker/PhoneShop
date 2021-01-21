@@ -64,12 +64,20 @@ class Bill
                 WHERE donhang.TrangThai = 0 AND donhang.MaKhachHang= $maKhachHang";
         }
         $result = $this->db->con->query($query_string);
-        $resultArr = array();
+        $resultArray = array();
         while($item = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $resultArray[] = $item;
         }
         return $resultArray;
     }
 
+
+    public function huyDonHang($maKhachHang)
+    {
+        if ($this->db->con != null) {            
+            $query_string = "DELETE FROM donhang WHERE MaKhachHang = $maKhachHang AND TrangThai = 0 ";
+        }
+        $this->db->con->query($query_string);
+    }
   
 }
