@@ -59,10 +59,10 @@
             <nav class="sidebar sticky-left">
                 <ul style="list-style:none;" class="rounded">
                     <li class=""><a href="index.php"><i class="fa fa-home"></i> Trang chủ</a></li>
-                    <li class=""><a href="index.php?page=p&pg=1"><i class="fas fa-phone"></i>Sản Phẩm</a></li>
-                    <li class=""><a href="index.php?page=b&pg=1"><i class="fas fa-copyright"></i> Thương Hiệu</a></li>
-                    <li class=""><a href="index.php?page=a&pg=1"><i class="fa fa-user"></i> Tài Khoản</a></li>
-                    <li class=""><a href="index.php?page=o&pg=1"><i class="fas fa-box-open"></i> Đơn Hàng</a></li>
+                    <li class=""><a href="index.php?page=p"><i class="fas fa-phone"></i>Sản Phẩm</a></li>
+                    <li class=""><a href="index.php?page=b"><i class="fas fa-copyright"></i> Hãng điện thoại</a></li>
+                    <li class=""><a href="index.php?page=a"><i class="fa fa-user"></i> Tài Khoản</a></li>
+                    <li class=""><a href="index.php?page=o"><i class="fas fa-box-open"></i> Đơn Hàng</a></li>
                     <li class=""><a href="index.php?page=s"><i class="fa fa-question-circle"></i>Hỗ trợ</a></li>
                     <li class="logout"><a href="../index.php"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
                 </ul>

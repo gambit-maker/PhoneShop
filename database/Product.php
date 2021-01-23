@@ -98,6 +98,21 @@
             return $resultArray;            
         }
 
+        // tim kiem hang
+        public function timKiemHang($chuoi)
+        {
+            if ($this->db->con != null) {            
+                $query_string = "SELECT * FROM hang                 
+                WHERE hang.TenHang LIKE '%$chuoi%'";
+            }
+            $result = $this->db->con->query($query_string);            
+            $resultArray = array();
+            while ($item = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                $resultArray[] = $item;
+            }
+            return $resultArray;            
+        }
+
 
         // thêm sản phẩm 
         public function themDienThoai($tenDienThoai,$maHang,$img,$giaTien,$moTa,$soLuong)
@@ -109,6 +124,15 @@
             $this->db->con->query($query_string);                        
         }
 
+        // thêm hãng
+        public function themHang($tenHang)
+        {
+            if ($this->db->con != null) {
+                $query_string = "INSERT INTO `hang`(`TenHang`) VALUES ('$tenHang')";                
+            }
+            $this->db->con->query($query_string);
+        }
+
         //xoa san pham
         public function xoaSanPham($maSanPham)
         {
@@ -117,5 +141,60 @@
             }
             $this->db->con->query($query_string);                        
         }
+
+        //xoa hang
+        public function xoaHang($maHang)
+        {
+            if ($this->db->con != null) {            
+                $query_string = "DELETE FROM hang WHERE MaHang = $maHang";
+            }
+            $this->db->con->query($query_string);                        
+        }
+
+        // chỉ lấy 1 sp
+        public function getProductOnly($item_id = null, $table='dienthoai'){ 
+            if (isset($item_id)) {
+                $result = $this->db->con->query("SELECT * FROM {$table} WHERE MaDienThoai={$item_id}");
+            }
+
+            
+            $item = mysqli_fetch_array($result,MYSQLI_ASSOC);
+             
+            return $item;
+        }
+
+        // chỉ lấy 1 hang
+        public function getBrandOnly($item_id = null, $table='hang'){ 
+            if (isset($item_id)) {
+                $result = $this->db->con->query("SELECT * FROM {$table} WHERE MaHang={$item_id}");
+            }
+
+            
+            $item = mysqli_fetch_array($result,MYSQLI_ASSOC);
+             
+            return $item;
+        }
+
+        public function updateDienThoai($maDienThoai,$tenDienThoai,$maHang,$img,$giaTien,$moTa,$soLuong)
+        {
+            if (isset($maDienThoai)) {
+                $query_string = "UPDATE `dienthoai`
+                 SET `TenDienThoai`= '$tenDienThoai',
+                 `MaHang`= '$maHang',
+                 `img`='$img',
+                 `GiaTien`='$giaTien',
+                 `MoTa`='$moTa',
+                 `SoLuong`='$soLuong'
+                  WHERE MaDienThoai = $maDienThoai";
+                $this->db->con->query($query_string);                
+            }
+        }
+
+        public function updateHang($maHang,$tenHang)
+        {
+            if (isset($tenHang)) {
+                $query_string = "UPDATE `hang` SET `TenHang`='$tenHang' WHERE MaHang = $maHang";
+                $this->db->con->query($query_string);
+            }
+        }
     }
-?>
