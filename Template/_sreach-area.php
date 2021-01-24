@@ -1,4 +1,3 @@
-<!-- Special Price -->
 <?php
 $brand_name = $product->getData("hang");
 $brand = array_map(function ($pro) {
@@ -8,6 +7,26 @@ $product_data = $product->getData();
 sort($brand);
 shuffle($product_data);
 
+if (isset($_POST["submit"])) {
+    $from = $_POST["moneyFrom"];
+    $to = $_POST["moneyTo"];
+    if ($from != null && $to != null) {
+        if ($to <= $from) {
+            echo '<script>
+            swal({
+                title: "Nhập số thứ 2 lớn hơn thứ 1",
+                text: "",
+                icon: "error"
+            }).then(function() {
+                window.location = "";
+            });
+            </script>';
+        }
+        $product_data = $product->timSanPhamVoiGiaTien($from, $to);
+    } else {
+        $product_data = $product->getData();
+    }
+}
 
 if (isset($_POST["special_price_submit"])) {
     // call add to cart method    
@@ -21,9 +40,27 @@ if (isset($_POST["special_price_submit"])) {
     }
 }
 ?>
+
+
 <section id="special-price">
-    <div class="container">
-        <h4 class="font-rubik font-size-20">Special Price</h4>
+    <div class="container py-5">
+        <h4>Tìm kiếm theo giá tiền </h4>
+        <form action="" method="post">
+
+            <table align="center" class="font-baloo font-size-20">
+                <tr>
+                    <td>Từ: </td>
+                    <td><input type="number" name="moneyFrom"></td>
+                    <td>Đến: </td>
+                    <td><input type="number" name="moneyTo"></td>
+                    <td><input type="submit" name="submit" class="btn btn-primary" value="Tìm"></td>
+                </tr>
+
+            </table>
+        </form>
+
+
+        <!-- <h4 class="font-rubik font-size-20">Kết quả tìm kiếm</h4> -->
         <div id="filters" class="button-group text-right font-baloo font-size-16">
             <button class="btn is-checked" data-filter="*">All Brand</button>
             <?php
@@ -52,7 +89,7 @@ if (isset($_POST["special_price_submit"])) {
                             <?php
                             if ($accountID == null) : ?>
                                 <a href="<?php printf("%s?MaDienThoai=%s", "product.php", $item['MaDienThoai']) ?>">
-                                    <img src="<?php echo $item['img'] ?? "./assets/products/1.png" ?>" alt="Product1" class="img-fluid">
+                                    <img src="<?php echo $item['img'] ?? "./assets/products/1.png" ?>" alt="Product1" height="200px">
                                 </a>
                             <?php
                             endif;
@@ -92,6 +129,6 @@ if (isset($_POST["special_price_submit"])) {
 
         </div>
 
+
     </div>
 </section>
-<!-- !Special Price -->

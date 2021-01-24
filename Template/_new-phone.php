@@ -46,12 +46,19 @@
                                  <span><i class="far fa-star"></i></span>
                              </div>
                              <div class="price py-2">
-                                 <span><?php echo $item["GiaTien"] . " VND" ?? "0" ?></span>
+                                 <span><?php echo number_format($item["GiaTien"]) . " VND" ?? "0" ?></span>
                              </div>
                              <form method="POST">
                                  <input type="hidden" name="item_id" value="<?php echo $item['MaDienThoai'] ?>">
                                  <input type="hidden" name="account_id" value="<?php echo $accountID; ?>">
-                                 <button type="submit" name="new_phone_submit" class="btn btn-warning font-size-12">Add To Cart</button>
+                                 
+                                 <?php 
+                                    if ($item['SoLuong'] <= 0) {
+                                        echo '<button type="submit" disabled name="new_phone_submit" class="btn btn-info font-size-12">Hết Hàng</button>';
+                                    }else{
+                                        echo '<button type="submit" name="new_phone_submit" class="btn btn-warning font-size-12">Add To Cart</button>';
+                                    }
+                                ?>
                              </form>
                          </div>
                      </div>

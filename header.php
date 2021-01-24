@@ -79,10 +79,20 @@
                         <a class="nav-link" href="#">On Sale</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Category<i class="fas fa-chevron-down"></i></a>
+                        <a class="nav-link" href="#">Category</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Products<i class="fas fa-chevron-down"></i></a>
+                        <?php 
+                            if ($accountID != null) {
+                                echo '<a class="nav-link" href="sreach.php?accountID='.$accountID.'">Sreach</a>';
+                            }else{
+                                echo '<a class="nav-link" href="sreach.php">Sreach</a>';
+                            }
+                        ?>
                     </li>
                     <li class="nav-item">
 

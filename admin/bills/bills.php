@@ -12,6 +12,10 @@
 
     if (isset($_POST["submitNhanTien"])) {
         $maDonhang = $_POST["maDonhang"];
+        $updateSoLuongArr = $bill->hienThiChiTietDonHangDungMaDonHang($maDonhang);
+        foreach ($updateSoLuongArr as $item) {
+            $product->capNhapSoLuong($item['MaDienThoai'],$item['SoLuong']);
+        }
         $bill->duyetDonHang($maDonhang,'3');
     }
 

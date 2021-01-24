@@ -53,12 +53,13 @@ if (isset($_POST["submit"])) {
             if (isset($_POST["submit"])) {                
                 if ($fromDate != null && $toDate != null) {
                     $arr = $bill->thongKeTheoKhoangThoiGian($fromDate, $toDate);
+                }else if($monthAndYear != null){
+                    $arr = $bill->thongKeTheoNamThang($monthAndYear);                    
                 }else{
-                    $arr = $bill->thongKeTheoNamThang($monthAndYear);
-                    
+                    $arr = $bill->timHoaDonDuyet("3");    
                 }
             } else {
-                $arr = array();
+                $arr = $bill->timHoaDonDuyet("3");
             }
 
             foreach ($arr as $item) :

@@ -1,6 +1,6 @@
 <!-- Top Sale -->
 <?php
-$product_data = $product->getData();
+$product_data = $product->getDataTopSale();
 shuffle($product_data);
 
 if (isset($_POST["top_sale_submit"])) {
@@ -9,7 +9,7 @@ if (isset($_POST["top_sale_submit"])) {
     if (isset($_GET["accountID"])) {
         $cart->addToCart($_POST['account_id'], $_POST['item_id']);
         // echo '<script type="text/javascript">swal("product insert to cart.", " ", "success");</script>';
-        echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
+        // echo("<script>location.href = '".$_SERVER['PHP_SELF']."?accountID=$accountID';</script>");
 //         echo '<script>
 //             swal({
 //                 title: "Product has been inserted.",
@@ -17,6 +17,16 @@ if (isset($_POST["top_sale_submit"])) {
 //                 icon: "success"
 //             });
 // </script>';
+echo '<script>
+swal({
+    title: "Sản phẩm đã được thêm vào giỏ hàng.",
+    text: "",
+    icon: "success"
+}).then(function() {
+    window.location = "";
+});
+</script>';
+
     } else {
         echo '<script type="text/javascript">swal("You must login to use this feature !", " ", "error");</script>';
     }
@@ -55,12 +65,18 @@ if (isset($_POST["top_sale_submit"])) {
                                 <span><i class="far fa-star"></i></span>
                             </div>
                             <div class="price py-2">
-                                <span><?php echo $item["GiaTien"] . " VND" ?? "0" ?></span>
+                                <span><?php echo number_format($item["GiaTien"])  . " VND" ?? "0" ?></span>
                             </div>
                             <form method="POST">
-                                <input type="hidden" name="item_id" value="<?php echo $item['MaDienThoai'] ?>">
+                                <input  type="hidden" name="item_id" value="<?php echo $item['MaDienThoai'] ?>">
                                 <input type="hidden" name="account_id" value="<?php echo $accountID; ?>">
-                                <button type="submit" name="top_sale_submit" class="btn btn-warning font-size-12">Add To Cart</button>
+                                <?php 
+                                    if ($item['SoLuong'] <= 0) {
+                                        echo '<button type="submit" disabled name="top_sale_submit" class="btn btn-info font-size-12">Hết Hàng</button>';
+                                    }else{
+                                        echo '<button type="submit" name="top_sale_submit" class="btn btn-warning font-size-12">Add To Cart</button>';
+                                    }
+                                ?>
                             </form>
                         </div>
                     </div>

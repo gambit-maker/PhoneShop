@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 // include headerzz
 include('header.php');
 ?>
