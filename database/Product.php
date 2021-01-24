@@ -235,4 +235,15 @@ class Product
         }
         return $resultArray;
     }
+
+    public function timSanPhamVoiTen($string)
+    {
+        $query_string = "SELECT * from dienthoai WHERE TenDienThoai LIKE '%$string%'";
+        $result = $this->db->con->query($query_string);
+        $resultArray = array();
+        while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }
 }

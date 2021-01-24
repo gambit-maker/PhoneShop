@@ -10,6 +10,7 @@ shuffle($product_data);
 if (isset($_POST["submit"])) {
     $from = $_POST["moneyFrom"];
     $to = $_POST["moneyTo"];
+    $searchString = $_POST["searchString"];
     if ($from != null && $to != null) {
         if ($to <= $from) {
             echo '<script>
@@ -23,6 +24,8 @@ if (isset($_POST["submit"])) {
             </script>';
         }
         $product_data = $product->timSanPhamVoiGiaTien($from, $to);
+    } else if($searchString != null){
+        $product_data = $product->timSanPhamVoiTen($searchString);
     } else {
         $product_data = $product->getData();
     }
@@ -44,7 +47,7 @@ if (isset($_POST["special_price_submit"])) {
 
 <section id="special-price">
     <div class="container py-5">
-        <h4>Tìm kiếm theo giá tiền </h4>
+        <h4>Tìm kiếm </h4>
         <form action="" method="post">
 
             <table align="center" class="font-baloo font-size-20">
@@ -53,7 +56,15 @@ if (isset($_POST["special_price_submit"])) {
                     <td><input type="number" name="moneyFrom"></td>
                     <td>Đến: </td>
                     <td><input type="number" name="moneyTo"></td>
-                    <td><input type="submit" name="submit" class="btn btn-primary" value="Tìm"></td>
+                    
+                </tr>
+                <tr>
+                    <td >Tên sản phẩm :</td>
+                    <td colspan="3" ><input type="text" name="searchString" class="mt-2"></td>
+                </tr>
+                <tr>
+                <td><td><input type="submit" name="submit" class="btn btn-primary mt-2" value="Tìm"></td></td>
+                    
                 </tr>
 
             </table>
