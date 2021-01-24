@@ -1,29 +1,16 @@
-<?php
-$accountId = $_GET["accountID"];
 
-if (isset($_POST["huyDonhang"])) {
-    $maDonHang = $_POST["maDonHang"];
-    $bill->xoaDonHang($maDonHang);
-    echo '<script>
-            swal({
-                title: "Đơn hàng đã bị hủy",
-                text: " ",
-                icon: "success"
-            });
-</script>';
-}
+<?php 
+    $accountId = $_GET["accountID"];
 ?>
-
-
 
 <div class="container">
 
     <?php
-    if ($bill->hienThiDonHangV2($accountId, "0") != null) :
-
+    if ($bill->hienThiDonHangV2($accountId,"1") != null) :
+        
     ?>
         <form action="" method="post">
-            <h4 style="text-align: center;" class="py-5">Đơn hàng đang được xác nhận</h4>
+            <h4 style="text-align: center;" class="py-5">Đơn hàng đang được vận chuyển</h4>
             <table align="center" width="100%" border="1 solid black" class="mb-5" style="text-align: center;">
 
                 <thead>
@@ -35,10 +22,10 @@ if (isset($_POST["huyDonhang"])) {
 
                     </tr>
                     <?php
-
-                    $chiTietDonHang = $bill->hienThiDonHangV2($accountId, "0");
+                    
+                    $chiTietDonHang = $bill->hienThiDonHangV2($accountId,"1");
                     foreach ($chiTietDonHang as $item) :
-
+                        
                     ?>
                         <tr style="height: 50px;">
 
@@ -47,7 +34,7 @@ if (isset($_POST["huyDonhang"])) {
 
                             ?>
                             <td>
-                                <?php echo $item['NgayDat']; ?>
+                                <?php echo $item['NgayDat'];?>
                             </td>
                             <td>
                                 <?php
@@ -56,14 +43,10 @@ if (isset($_POST["huyDonhang"])) {
                             </td>
 
                             <td>
-                                <a href="xemChiTietDonHang.php?MaDonHang=<?php echo $item['MaDonHang']; ?>">Xem chi tiết</a>
+                                <a href="xemChiTietDonHang.php?MaDonHang=<?php echo $item['MaDonHang']; ?>" >Xem chi tiết</a>
                             </td>
-                            <td>
-                                <input type="hidden" name="maDonHang" value="<?php echo $item['MaDonHang']; ?>">
-                                <input type="submit" name="huyDonhang" class="btn btn-danger" value="Hủy">
-                            </td>
-
-
+                            
+                            
 
 
                         </tr>
@@ -73,14 +56,10 @@ if (isset($_POST["huyDonhang"])) {
                 </thead>
 
             </table>
-
         </form>
     <?php
     endif;
     ?>
-    <!-- <?php
-            if ($bill->hienThiDonHangV2($accountId, "0") == null) {
-                echo '<h4 style="text-align: center;" class="py-5">Hiện không có mặt hàng nào trong giỏ</h4>';
-            }
-            ?> -->
+    
+
 </div>

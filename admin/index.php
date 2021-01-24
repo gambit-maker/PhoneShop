@@ -1,8 +1,8 @@
-<?php 
-    require('../functions.php');
-    if (isset($_GET["page"])) {
-        $page = $_GET["page"];
-    }
+<?php
+require('../functions.php');
+if (isset($_GET["page"])) {
+    $page = $_GET["page"];
+}
 ?>
 
 <!doctype html>
@@ -63,6 +63,7 @@
                     <li class=""><a href="index.php?page=b"><i class="fas fa-copyright"></i> Hãng điện thoại</a></li>
                     <li class=""><a href="index.php?page=a"><i class="fa fa-user"></i> Tài Khoản</a></li>
                     <li class=""><a href="index.php?page=o"><i class="fas fa-box-open"></i> Đơn Hàng</a></li>
+                    <li class=""><a href="index.php?page=tk"><i class="fas fa-chart-bar"></i></i>Thống kê</a></li>
                     <li class=""><a href="index.php?page=s"><i class="fa fa-question-circle"></i>Hỗ trợ</a></li>
                     <li class="logout"><a href="../index.php"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
                 </ul>
@@ -104,6 +105,9 @@
                         break;
                     case 's':
                         include('support.php');
+                        break;
+                    case 'tk':
+                        include('statistic.php');
                         break;
                 }
             } else include('home.php');

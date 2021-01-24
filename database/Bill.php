@@ -12,6 +12,16 @@ class Bill
         $this->db = $db;
     }
 
+    public function getData($table = "donhang"){
+        $result = $this->db->con->query("SELECT * FROM {$table} ORDER BY TrangThai ASC, NgayDat DESC");
+
+        $resultArray = array();
+        while($item = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }         
+
     public function themDonHang($maKhachHang, $tongTien)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -53,12 +63,12 @@ class Bill
         }
     }
 
-    public function hienThiChiTietDonHang($maKhachHang)
+    public function hienThiChiTietDonHang($maKhachHang,$trangThai = "0")
     {
         if ($this->db->con != null) {
             $query_string = "SELECT * FROM chitietdonhang JOIN donhang
                 ON chitietdonhang.MaDonHang = donhang.MaDonHang 
-                WHERE donhang.TrangThai = 0 AND donhang.MaKhachHang= $maKhachHang";
+                WHERE donhang.TrangThai = '$trangThai' AND donhang.MaKhachHang= $maKhachHang";
         }
         $result = $this->db->con->query($query_string);
         $resultArray = array();
@@ -67,6 +77,22 @@ class Bill
         }
         return $resultArray;
     }
+
+    public function hienThiDonHangV2($maKhachHang,$trangThai="0")
+    {
+        if ($this->db->con != null) {
+            $query_string = "SELECT * FROM donhang 
+                WHERE TrangThai = '$trangThai' AND MaKhachHang= $maKhachHang";
+        }
+        $result = $this->db->con->query($query_string);
+        $resultArray = array();
+        while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }
+
+
 
 
     public function huyDonHang($maKhachHang)
@@ -107,5 +133,51 @@ class Bill
             }
             return $resultArray;
         }
+    }
+
+    public function hienThiChiTietDonHangDungMaDonHang($maDonHang)
+    {
+        if ($this->db->con != null) {
+            $query_string = "SELECT * FROM chitietdonhang where MaDonHang = $maDonHang ";
+            $result = $this->db->con->query($query_string);
+            $resultArray = array();
+            while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $resultArray[] = $item;
+            }
+            return $resultArray;
+        }
+    }
+
+    public function layDuLieuDonHang($maDonHang,$duLieu = "TongTien")
+    {
+
+        $result = $this->db->con->query("SELECT DISTINCT * FROM donhang            
+            WHERE MaDonHang = $maDonHang");
+
+        $item = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+        return $item[$duLieu];
+    }
+
+    public function thongKeTheoKhoangThoiGian($from, $to)
+    {
+        $query_string = "SELECT * FROM donhang WHERE NgayDat BETWEEN '$from' AND '$to' AND TrangThai = 3";
+        $result = $this->db->con->query($query_string);
+        $resultArray = array();
+        while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $resultArray[] = $item;
+        }
+        return $resultArray;
+    }
+
+    public function thongKeTheoNamThang($yearMonthData)
+    {
+        $query_string = "SELECT * from donhang WHERE date_format(NgayDat,'%Y-%m') = '$yearMonthData' AND TrangThai = 3";
+        $result = $this->db->con->query($query_string);
+        $resultArray = array();
+        while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $resultArray[] = $item;
+        }
+        return $resultArray;
     }
 }
